@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hucheng.cfms.mapper.TicketDOMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hucheng.cfms.entity.TicketDO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="memberid" property="memberid"
+			jdbcType="INTEGER" />
+		<result column="piid" property="piid" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="authcode" property="authcode" jdbcType="CHAR" />
+		<result column="pstep" property="pstep" jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from t_ticket
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.hucheng.cfms.entity.TicketDO">
+		insert into t_ticket (memberid, piid,
+		status, authcode,
+		pstep)
+		values (#{memberid,jdbcType=INTEGER}, #{piid,jdbcType=VARCHAR},
+		#{status,jdbcType=CHAR}, #{authcode,jdbcType=CHAR},
+		#{pstep,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey"
+		parameterType="com.hucheng.cfms.entity.TicketDO">
+		update t_ticket
+		set memberid =
+		#{memberid,jdbcType=INTEGER},
+		piid = #{piid,jdbcType=VARCHAR},
+		status =
+		#{status,jdbcType=CHAR},
+		authcode = #{authcode,jdbcType=CHAR},
+		pstep =
+		#{pstep,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, memberid, piid, status, authcode, pstep
+		from
+		t_ticket
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, memberid, piid,
+		status, authcode, pstep
+		from t_ticket
+	</select>
+	<select id="selectPstepByMemberId" resultType="java.lang.String">
+		SELECT pstep from
+		t_ticket where memberid=#{memberId} and `status`=0
+	</select>
+	<update id="updateTicketPstep">
+		update t_ticket set pstep=#{pStep}
+		where
+		memberid=#{memberId}
+	</update>
+	<update id="updateTicketPstepAndCode">
+		update t_ticket set pstep=#{pStep},authcode=#{code}
+		where
+		memberid=#{memberId}
+	</update>
+	<select id="selectTicketByMemberId" resultMap="BaseResultMap">
+		select id,
+		memberid, piid, status, authcode, pstep
+		from
+		t_ticket
+		where
+		memberid=#{memberId}
+	</select>
+</mapper>

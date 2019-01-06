@@ -1,0 +1,18 @@
+server:
+  port: 80
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:84/eureka
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .page
+hucheng.crowdfunding.tracker.config.location: classpath:/tracker.conf
+ribbon:
+  OkToRetryOnAllOperations: false
+  ReadTimeout: 50000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1

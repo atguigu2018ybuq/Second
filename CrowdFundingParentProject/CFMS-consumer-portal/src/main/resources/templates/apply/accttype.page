@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/theme.css">
+<link rel="stylesheet" href="/layer/theme/default/layer.css">
+<style>
+#footer {
+    padding: 15px 0;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    text-align: center;
+}
+
+.seltype {
+    position: absolute;
+    margin-top: 70px;
+    margin-left: 10px;
+    color: red;
+}
+</style>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <div class="container">
+            <nav class="navbar navbar-inverse navbar-fixed-top"
+                role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/index"
+                            style="font-size: 32px;">尚筹网-创意产品众筹平台</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse"
+                        style="float: right;">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown"><a href="#"
+                                class="dropdown-toggle"
+                                data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-user"></i>
+                                    ${Session.LOGIN_MEMBER.nickName}<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="member.html"><i
+                                            class="glyphicon glyphicon-scale"></i>
+                                            会员中心</a></li>
+                                    <li><a href="#"><i
+                                            class="glyphicon glyphicon-comment"></i>
+                                            消息</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/user/logout"><i
+                                            class="glyphicon glyphicon-off"></i>
+                                            退出系统</a></li>
+                                </ul></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+    </div>
+
+    <div class="container theme-showcase" role="main">
+
+
+        <div class="page-header">
+            <h1>实名认证 - 账户类型选择</h1>
+        </div>
+        <div style="padding-top: 10px;">
+            <div class="row">
+                <form id="accttypeFormId" action="/member/authentication/do/acct/type" method="post">
+                    <input type="hidden" name="accttype" value="0" />
+                    <div class="col-xs-6 col-md-3">
+                        <h2>商业公司</h2>
+                        <a accttype="0" href="#" class="thumbnail"> <img
+                            alt="100%x180" src="/img/services-box1.jpg"
+                            data-holder-rendered="true"
+                            style="height: 180px; width: 100%; display: block;">
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <h2>个体工商户</h2>
+                        <a accttype="1" href="#" class="thumbnail"> <img
+                            alt="100%x180" src="/img/services-box2.jpg"
+                            data-holder-rendered="true"
+                            style="height: 180px; width: 100%; display: block;">
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <h2>个人经营</h2>
+                        <a accttype="2" href="#" class="thumbnail"> <img
+                            alt="100%x180" src="/img/services-box3.jpg"
+                            data-holder-rendered="true"
+                            style="height: 180px; width: 100%; display: block;">
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <h2>政府及非营利组织</h2>
+                        <a accttype="3" href="#" class="thumbnail"> <img
+                            alt="100%x180" src="/img/services-box4.jpg"
+                            data-holder-rendered="true"
+                            style="height: 180px; width: 100%; display: block;">
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <button id="authApplyBtn" type="button"
+                class="btn btn-danger btn-lg btn-block">认证申请</button>
+        </div>
+        <!-- /container -->
+        <!-- /END THE FEATURETTES -->
+        <div class="container" style="margin-top: 20px;">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div id="footer">
+                        <div class="footerNav">
+                            <a rel="nofollow"
+                                href="http://www.atguigu.com">关于我们</a> |
+                            <a rel="nofollow"
+                                href="http://www.atguigu.com">服务条款</a> |
+                            <a rel="nofollow"
+                                href="http://www.atguigu.com">免责声明</a> |
+                            <a rel="nofollow"
+                                href="http://www.atguigu.com">网站地图</a> |
+                            <a rel="nofollow"
+                                href="http://www.atguigu.com">联系我们</a>
+                        </div>
+                        <div class="copyRight">Copyright
+                            ?2017-2017atguigu.com 版权所有</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/jquery/jquery-2.1.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/script/docs.min.js"></script>
+    <script type="text/javascript" src="/layer/layer.js"></script>
+    <script type="text/javascript">
+    
+        var accttype = null;
+    
+        //".thumbnail"是定位到每一种账户类型的图片外面的a标签
+        $(".thumbnail").click(function() {
+            
+            //当前账户类型
+            //强行加上的DOM本身没有的属性使用DOM对象获取不到
+            //accttype = this.accttype;
+            accttype = $(this).attr("accttype");
+
+            //'.seltype'就是动态添加到页面上的“√”
+            //删除的含义是：将其他账户类型图片上的“√”删除
+            $('.seltype').remove();
+
+            //将“√”添加到当前账户类型图片上
+            $(this)
+                    .prepend(
+                            '<div class="glyphicon glyphicon-ok seltype"></div>');
+        });
+
+        //给认证申请按钮绑定单击响应函数
+        $("#authApplyBtn").click(function() {
+            //检查是否选中了某一个账户类型
+            //根据：jQuery对象是DOM对象的数组
+            var length = $('.seltype').length;
+
+            //判断
+            if (length == 0) {
+                layer.msg("请选择一个账户类型！");
+                return;
+            }
+
+            //将用户选中的账户类型发送给handler
+            //获取当前选中账户类型值
+            $("[name=accttype]").val(accttype);
+
+            //发送
+            $("#accttypeFormId").submit();
+        });
+    </script>
+</body>
+</html>

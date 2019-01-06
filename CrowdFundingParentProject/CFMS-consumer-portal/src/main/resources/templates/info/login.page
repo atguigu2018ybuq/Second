@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keys" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <style>
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <div><a class="navbar-brand" href="/index" style="font-size:32px;">尚筹网-创意产品众筹平台</a></div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <form class="form-signin" role="form">
+        <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
+        <p></p>
+        <div class="form-group has-success has-feedback">
+            <input type="text" class="form-control" id="loginacct" value="zzz" placeholder="请输入登录账号" autofocus>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <input type="password" class="form-control" id="userpswd" value="123" placeholder="请输入登录密码"
+                   style="margin-top:10px;">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <select class="form-control">
+                <option value="member" selected="selected">会员</option>
+                <option value="user">管理</option>
+            </select>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> 记住我
+            </label>
+            <br>
+            <label>
+                忘记密码
+            </label>
+            <label style="float:right">
+                <a href="/member/register">我要注册</a>
+            </label>
+        </div>
+        <button id="loginBtn" type="button" class="btn btn-lg btn-success btn-block">登录</button>
+    </form>
+</div>
+<script src="/jquery/jquery-2.1.1.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- 一定要放在JQuery库后面 -->
+<script type="text/javascript" src="/layer/layer.js"></script>
+<script type="text/javascript">
+
+	$("option[value='member']").attr("selected","selected");
+
+    var userLoginAddress = "/user/do/login";
+    var memberLoginAddress = "/member/do/login"
+
+    var finalLoginAddress = memberLoginAddress;
+
+    $(function () {
+        //两种不同登录方式的切换
+        $("select").change(function () {
+            var optionValue = $(":selected").val();
+
+            if (optionValue == "user") {
+                finalLoginAddress = userLoginAddress;
+            }
+            if (optionValue == "member") {
+                finalLoginAddress = memberLoginAddress;
+            }
+        });
+
+        //1.给登录按钮绑定单击事件
+        $("#loginBtn").click(function () {
+            //2.获取填写的用户名和密码
+            var loginacct = $("#loginacct").val();
+            var userpswd = $("#userpswd").val();
+
+            //3.根据不同的URL地址发送不同Ajax请求
+            if (finalLoginAddress == "/user/do/login") {
+                $.ajax({
+                    "url": finalLoginAddress,
+                    "type": "post",
+                    "data": {
+                        "loginacct": loginacct,
+                        "userpswd": userpswd
+                    },
+                    "dataType": "json",
+                    "error": function (response) {
+                        //500和200response的结构不同，要通过responseJSON才能拿到message
+                        var message = response.responseJSON.message;
+                        layer.msg(message);
+                    },
+                    "success": function (response) {
+                        var result = response.result;
+                        if (result == "SUCCESS") {
+                            //跳转页面
+                            window.location.href = "/user/main";
+                        }
+                        if (result == "FAILED") {
+                            var message = response.message;
+                            layer.msg(message);
+                        }
+                    }
+                });
+            }
+            if (finalLoginAddress == "/member/do/login") {
+                $.ajax({
+                    "url": finalLoginAddress,
+                    "type": "post",
+                    "data": {
+                        "loginAcc": loginacct,
+                        "loginPwd": userpswd
+                    },
+                    "dataType": "json",
+                    "error": function (response) {
+                        //500和200response的结构不同，要通过responseJSON才能拿到message
+                        var message = response.responseJSON.message;
+                        layer.msg(message);
+                    },
+                    "success": function (response) {
+                        var result = response.result;
+                        if (result == "SUCCESS") {
+                            //跳转页面
+                            window.location.href = "/member/main";
+                        }
+                        if (result == "FAILED") {
+                            var message = response.message;
+                            layer.msg(message);
+                        }
+                    }
+
+                });
+
+            }
+
+        });
+    });
+
+</script>
+</body>
+</html>
